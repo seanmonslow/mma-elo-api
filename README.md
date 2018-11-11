@@ -11,3 +11,11 @@ To do list:
     <li>Make migrations for database so other people can clone and run it themselves</li>
     <li>Run ELO simulation on all the data. Already written but pointless running if all the data isn't there yet</li>
 </ul>
+
+If you want to run it and see nothing:
+
+<ul>
+    <li>git clone https://github.com/wolsney/mma-elo-api.git</li>
+    <li>Run the command npm run dev</li>
+    <li>Run the command php artisan serve</li>
+</ul>
