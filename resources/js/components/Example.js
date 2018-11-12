@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Autosuggest from 'react-autosuggest';
+import {Result} from './result.js';
 
 const getSuggestionValue = function(suggestion){
     //console.log(suggestion); 
@@ -97,10 +98,11 @@ export default class Page extends Component {
                 <div className="row justify-content-center">
                     <div className="col-md-8">
                         {this.state.fighterFights.map((fight) =>
-                            <div>
+                            /*<div>
                             <li>{fight.event_date}</li>
                             <li>{fight.result}</li>
-                            </div>
+                            </div>*/
+                            <Result key={fight.id} currentFighter={this.state.fighterInfo} fight={fight}/>
                         )}
                     </div>
                 </div>
