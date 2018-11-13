@@ -120,6 +120,10 @@
                 background-color: #ddd;
             }
 
+            #app{
+                background-color: #f8fafc;
+            }
+
         </style>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     </head>

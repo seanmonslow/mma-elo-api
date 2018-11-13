@@ -86,22 +86,16 @@ export default class Page extends Component {
                         onSuggestionSelected={this.onSuggestionSelected}
                     />
                 </nav>
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
+                <div className="row">
+                    <div className="col-md-6">
                         <div className="card">
                             <div className="card-header">{this.state.fighterInfo.name}</div>
                             <div className="card-body">
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
+                    <div className="col-md-6">
                         {this.state.fighterFights.map((fight) =>
-                            /*<div>
-                            <li>{fight.event_date}</li>
-                            <li>{fight.result}</li>
-                            </div>*/
                             <Result key={fight.id} currentFighter={this.state.fighterInfo} fight={fight}/>
                         )}
                     </div>

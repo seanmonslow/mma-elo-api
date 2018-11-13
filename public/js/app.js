@@ -36484,10 +36484,10 @@ var Page = function (_Component) {
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'row justify-content-center' },
+                    { className: 'row' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
-                        { className: 'col-md-8' },
+                        { className: 'col-md-6' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
                             { className: 'card' },
@@ -36498,22 +36498,12 @@ var Page = function (_Component) {
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'card-body' })
                         )
-                    )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'row justify-content-center' },
+                    ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
-                        { className: 'col-md-8' },
+                        { className: 'col-md-6' },
                         this.state.fighterFights.map(function (fight) {
-                            return (
-                                /*<div>
-                                <li>{fight.event_date}</li>
-                                <li>{fight.result}</li>
-                                </div>*/
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__result_js__["a" /* Result */], { key: fight.id, currentFighter: _this4.state.fighterInfo, fight: fight })
-                            );
+                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__result_js__["a" /* Result */], { key: fight.id, currentFighter: _this4.state.fighterInfo, fight: fight });
                         })
                     )
                 )
@@ -61708,15 +61698,15 @@ var Result = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Result.__proto__ || Object.getPrototypeOf(Result)).call(this, props));
 
-        _this.state = {
-            fighter1id: _this.props.fight.fighter1id,
-            fighter2id: _this.props.fight.fighter2id,
-            event: _this.props.fight.event,
-            event_date: _this.props.fight.event_date,
-            result: _this.props.fight.result,
-            result_how: _this.props.fight.result_how,
-            otherFighter: {}
-        };
+        if (_this.props.fight.fighter1id === _this.props.currentFighter.id) {
+            _this.state = {
+                otherFighter: _this.props.fight.otherFighter2
+            };
+        } else {
+            _this.state = {
+                otherFighter: _this.props.fight.otherFighter1
+            };
+        }
         return _this;
     }
 
@@ -61725,10 +61715,10 @@ var Result = function (_React$Component) {
         value: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                { 'class': 'card' },
+                { className: 'card' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { 'class': 'card-body' },
+                    { className: 'card-body' },
                     this.props.currentFighter.name,
                     ' Vs. ',
                     this.state.otherFighter.name

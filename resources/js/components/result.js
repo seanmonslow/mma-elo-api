@@ -4,20 +4,20 @@ import ReactDOM from 'react-dom';
 export class Result extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-            fighter1id: this.props.fight.fighter1id,
-            fighter2id: this.props.fight.fighter2id,
-            event: this.props.fight.event,
-            event_date: this.props.fight.event_date,
-            result: this.props.fight.result,
-            result_how: this.props.fight.result_how,
-            otherFighter: {}
-        };
+        if(this.props.fight.fighter1id === this.props.currentFighter.id){
+            this.state = {
+                otherFighter: this.props.fight.otherFighter2
+            };
+        } else {
+            this.state = {
+                otherFighter: this.props.fight.otherFighter1
+            };
+        }
     }
     render(){
         return(
-            <div class="card">
-                <div class="card-body">
+            <div className="card">
+                <div className="card-body">
                     {this.props.currentFighter.name} Vs. {this.state.otherFighter.name}
                 </div>
             </div>
