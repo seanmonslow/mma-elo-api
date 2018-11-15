@@ -13,8 +13,4 @@ class Fighter extends Model
         $fights = Fight::where('fighter1id', $this->id)->orWhere('fighter2id', $this->id)->orderBy('event_date', 'DESC');
         return $fights;
     }
-
-    public static function sakuraba(){
-    	return Fighter::find(84);
-    }
 }

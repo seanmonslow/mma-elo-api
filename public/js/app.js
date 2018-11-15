@@ -36496,7 +36496,20 @@ var Page = function (_Component) {
                                 { className: 'card-header' },
                                 this.state.fighterInfo.name
                             ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'card-body' })
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'card-body' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'p',
+                                    { className: 'card-text' },
+                                    'Result: ',
+                                    this.state.fighterInfo.wins,
+                                    '-',
+                                    this.state.fighterInfo.draws,
+                                    '-',
+                                    this.state.fighterInfo.losses
+                                )
+                            )
                         )
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -61719,9 +61732,46 @@ var Result = function (_React$Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'card-body' },
-                    this.props.currentFighter.name,
-                    ' Vs. ',
-                    this.state.otherFighter.name
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'container' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'row' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'col-sm-9' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'h5',
+                                    { className: 'card-title' },
+                                    this.props.currentFighter.name,
+                                    ' Vs. ',
+                                    this.state.otherFighter.name
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'p',
+                                    { className: 'card-text' },
+                                    'Result: ',
+                                    this.props.fight.result
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'p',
+                                    { className: 'card-text' },
+                                    'Date: ',
+                                    this.props.fight.event_date
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'col-sm' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'p',
+                                    { className: 'card-text' },
+                                    'ELO: 1200'
+                                )
+                            )
+                        )
+                    )
                 )
             );
         }

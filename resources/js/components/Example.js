@@ -91,6 +91,7 @@ export default class Page extends Component {
                         <div className="card">
                             <div className="card-header">{this.state.fighterInfo.name}</div>
                             <div className="card-body">
+                                <p className="card-text">Result: {this.state.fighterInfo.wins}-{this.state.fighterInfo.draws}-{this.state.fighterInfo.losses}</p>
                             </div>
                         </div>
                     </div>
