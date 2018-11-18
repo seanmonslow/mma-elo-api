@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Autosuggest from 'react-autosuggest';
-import {Result} from './result.js';
+import {Fighter} from './fighter.js';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const getSuggestionValue = function(suggestion){
     //console.log(suggestion); 
     return suggestion.name;
 }
 
-const renderSuggestion = suggestion => (
-    <div>
-      {suggestion.name}<br></br>
-      Record: {suggestion.wins}-{suggestion.draws}-{suggestion.losses}
-    </div>
-  );
+
+
+const renderSuggestion = function(suggestion){
+    let id = '/fighters/' + suggestion.id;
+    return (<Link to = {id} >
+        <div>
+        {suggestion.name}<br></br>
+        Record: {suggestion.wins}-{suggestion.draws}-{suggestion.losses}
+        </div>
+    </Link>);
+};
   
 
 export default class Page extends Component {
@@ -73,35 +79,23 @@ export default class Page extends Component {
             onChange: this.onChange
         };
         return (
+            <Router>
             <div className="container">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
                     <a className="navbar-brand" href="#">MMA ELO</a>
-                    <Autosuggest
-                        suggestions={suggestions}
-                        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                        getSuggestionValue={getSuggestionValue}
-                        renderSuggestion={renderSuggestion}
-                        inputProps={inputProps}
-                        onSuggestionSelected={this.onSuggestionSelected}
-                    />
+                        <Autosuggest
+                            suggestions={suggestions}
+                            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                            getSuggestionValue={getSuggestionValue}
+                            renderSuggestion={renderSuggestion}
+                            inputProps={inputProps}
+                            onSuggestionSelected={this.onSuggestionSelected}
+                        />
                 </nav>
-                <div className="row">
-                    <div className="col-md-6">
-                        <div className="card">
-                            <div className="card-header">{this.state.fighterInfo.name}</div>
-                            <div className="card-body">
-                                <p className="card-text">Result: {this.state.fighterInfo.wins}-{this.state.fighterInfo.draws}-{this.state.fighterInfo.losses}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        {this.state.fighterFights.map((fight) =>
-                            <Result key={fight.id} currentFighter={this.state.fighterInfo} fight={fight}/>
-                        )}
-                    </div>
-                </div>
+                <Route path="/fighters/:id" component={Fighter} />
             </div>
+            </Router>
         );
     }
 }

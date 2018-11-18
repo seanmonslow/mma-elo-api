@@ -28,6 +28,10 @@ Route::get('/{id}/fights', 'FighterController@getFightersFights');
 
 Route::get('/fighterSearch/{search}', 'FighterController@fighterSearch');
 
+Route::get( '/fighters/{path?}', function(){
+    return view( 'welcome' );
+} )->where('path', '.*');
+
 Route::get('/', function(){
 	return view('welcome');
 });
