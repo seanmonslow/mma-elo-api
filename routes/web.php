@@ -35,3 +35,11 @@ Route::get( '/fighters/{path?}', function(){
 Route::get('/', function(){
 	return view('welcome');
 });
+
+Route::get('/homepagesummary', function(){
+    $submissions = DB::select('select YEAR(event_date) AS year, COUNT(*) AS count, "Submission" AS type from results where result_how LIKE "%Submission%" GROUP BY YEAR(event_date)');
+    $knockouts = DB::select('select YEAR(event_date) AS year, COUNT(*) AS count, "Knockout" AS type from results where result_how LIKE "%KO%" OR result_how LIKE "%TKO%" GROUP BY YEAR(event_date)');
+    $decisions = DB::select('select YEAR(event_date) AS year, COUNT(*) AS count, "Decision" AS type from results where result_how LIKE "%Decision%" GROUP BY YEAR(event_date)');
+    $results = array_merge($submissions, $knockouts, $decisions);
+    return $results;
+});

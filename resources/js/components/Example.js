@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Autosuggest from 'react-autosuggest';
 import {Fighter} from './fighter.js';
+import {Homepage} from './homepage.js';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const getSuggestionValue = function(suggestion){
@@ -59,13 +60,13 @@ export default class Page extends Component {
     };
 
     onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }){
-        console.log(suggestion.id);
+        /*console.log(suggestion.id);
         fetch('/'+suggestion.id+'/info')
         .then(response => response.json())
         .then(data => this.setState({ fighterInfo: data }))
         fetch('/'+suggestion.id+'/fights')
         .then(response => response.json())
-        .then(data => this.setState({ fighterFights: data }))
+        .then(data => this.setState({ fighterFights: data }))*/
     }
 
     render() {
@@ -94,6 +95,7 @@ export default class Page extends Component {
                         />
                 </nav>
                 <Route path="/fighters/:id" component={Fighter} />
+                <Route path="/" component={Homepage} />
             </div>
             </Router>
         );
