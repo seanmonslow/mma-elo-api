@@ -5,6 +5,14 @@ import {Line} from 'react-chartjs';
 export class Homepage extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            summaryFightResults: {}
+        }
+    }
+    componentDidMount(){
+        fetch('/homepagesummary')
+        .then(response => response.json())
+        .then(data => this.setState({ summaryFightResults: data }))
     }
     render(){
         var data = {

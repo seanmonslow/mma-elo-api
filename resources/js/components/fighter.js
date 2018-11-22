@@ -26,6 +26,17 @@ export class Fighter extends React.Component{
         .then(data => this.setState({ fighterFights: data }))
     }
 
+    componentDidUpdate(prevProps) {
+        if(this.props.match.params.id != prevProps.match.params.id){
+            fetch('/'+this.props.match.params.id+'/info')
+            .then(response => response.json())
+            .then(data => this.setState({ fighterInfo: data }))
+            fetch('/'+this.props.match.params.id+'/fights')
+            .then(response => response.json())
+            .then(data => this.setState({ fighterFights: data }))
+        }
+    }
+
     render(){
         return(<div className="row">
             <div className="col-md-6">

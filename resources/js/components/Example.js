@@ -94,8 +94,8 @@ export default class Page extends Component {
                             onSuggestionSelected={this.onSuggestionSelected}
                         />
                 </nav>
-                <Route path="/fighters/:id" component={Fighter} />
-                <Route path="/" component={Homepage} />
+                <Route exact path="/fighters/:id" component={Fighter} />
+                <Route exact path="/" component={Homepage} />
             </div>
             </Router>
         );

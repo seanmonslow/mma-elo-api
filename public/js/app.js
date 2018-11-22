@@ -38127,8 +38127,8 @@ var Page = function (_Component) {
                             onSuggestionSelected: this.onSuggestionSelected
                         })
                     ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_react_router_dom__["c" /* Route */], { path: '/fighters/:id', component: __WEBPACK_IMPORTED_MODULE_3__fighter_js__["a" /* Fighter */] }),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_react_router_dom__["c" /* Route */], { path: '/', component: __WEBPACK_IMPORTED_MODULE_4__homepage_js__["a" /* Homepage */] })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_react_router_dom__["c" /* Route */], { exact: true, path: '/fighters/:id', component: __WEBPACK_IMPORTED_MODULE_3__fighter_js__["a" /* Fighter */] }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_react_router_dom__["c" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_4__homepage_js__["a" /* Homepage */] })
                 )
             );
         }
@@ -63353,9 +63353,27 @@ var Fighter = function (_React$Component) {
             });
         }
     }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate(prevProps) {
+            var _this3 = this;
+
+            if (this.props.match.params.id != prevProps.match.params.id) {
+                fetch('/' + this.props.match.params.id + '/info').then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    return _this3.setState({ fighterInfo: data });
+                });
+                fetch('/' + this.props.match.params.id + '/fights').then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    return _this3.setState({ fighterFights: data });
+                });
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
@@ -63391,7 +63409,7 @@ var Fighter = function (_React$Component) {
                     'div',
                     { className: 'col-md-6' },
                     this.state.fighterFights.map(function (fight) {
-                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__result_js__["a" /* Result */], { key: fight.id, currentFighter: _this3.state.fighterInfo, fight: fight });
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__result_js__["a" /* Result */], { key: fight.id, currentFighter: _this4.state.fighterInfo, fight: fight });
                     })
                 )
             );
@@ -63529,10 +63547,26 @@ var Homepage = function (_React$Component) {
     function Homepage(props) {
         _classCallCheck(this, Homepage);
 
-        return _possibleConstructorReturn(this, (Homepage.__proto__ || Object.getPrototypeOf(Homepage)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Homepage.__proto__ || Object.getPrototypeOf(Homepage)).call(this, props));
+
+        _this.state = {
+            summaryFightResults: {}
+        };
+        return _this;
     }
 
     _createClass(Homepage, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            fetch('/homepagesummary').then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                return _this2.setState({ summaryFightResults: data });
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             var data = {
