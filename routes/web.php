@@ -43,3 +43,7 @@ Route::get('/homepagesummary', function(){
     $results = array_merge($submissions, $knockouts, $decisions);
     return $results;
 });
+
+Route::get('/api', 'ApiController@view');
+
+Route::post('/api', 'ApiController@createUser');

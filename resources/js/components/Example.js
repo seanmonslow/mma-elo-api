@@ -59,14 +59,8 @@ export default class Page extends Component {
         });
     };
 
-    onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }){
-        /*console.log(suggestion.id);
-        fetch('/'+suggestion.id+'/info')
-        .then(response => response.json())
-        .then(data => this.setState({ fighterInfo: data }))
-        fetch('/'+suggestion.id+'/fights')
-        .then(response => response.json())
-        .then(data => this.setState({ fighterFights: data }))*/
+    onSuggestionSelected(){
+        return null;
     }
 
     render() {
@@ -83,7 +77,7 @@ export default class Page extends Component {
             <Router>
             <div className="container">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
-                    <a className="navbar-brand" href="#">MMA ELO</a>
+                    <a className="navbar-brand" href="/">MMA ELO</a>
                         <Autosuggest
                             suggestions={suggestions}
                             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}

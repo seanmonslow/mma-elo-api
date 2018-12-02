@@ -38076,20 +38076,8 @@ var Page = function (_Component) {
         }
     }, {
         key: 'onSuggestionSelected',
-        value: function onSuggestionSelected(event, _ref3) {
-            /*console.log(suggestion.id);
-            fetch('/'+suggestion.id+'/info')
-            .then(response => response.json())
-            .then(data => this.setState({ fighterInfo: data }))
-            fetch('/'+suggestion.id+'/fights')
-            .then(response => response.json())
-            .then(data => this.setState({ fighterFights: data }))*/
-
-            var suggestion = _ref3.suggestion,
-                suggestionValue = _ref3.suggestionValue,
-                suggestionIndex = _ref3.suggestionIndex,
-                sectionIndex = _ref3.sectionIndex,
-                method = _ref3.method;
+        value: function onSuggestionSelected() {
+            return null;
         }
     }, {
         key: 'render',
@@ -38114,7 +38102,7 @@ var Page = function (_Component) {
                         { className: 'navbar navbar-expand-lg navbar-light bg-light justify-content-center' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'a',
-                            { className: 'navbar-brand', href: '#' },
+                            { className: 'navbar-brand', href: '/' },
                             'MMA ELO'
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_autosuggest___default.a, {
@@ -63550,7 +63538,7 @@ var Homepage = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Homepage.__proto__ || Object.getPrototypeOf(Homepage)).call(this, props));
 
         _this.state = {
-            summaryFightResults: {}
+            summaryFightResults: []
         };
         return _this;
     }
@@ -63560,6 +63548,16 @@ var Homepage = function (_React$Component) {
         value: function componentDidMount() {
             var _this2 = this;
 
+            /*fetch('/homepagesummary').then(
+                function(response){
+                    if (response.status !== 200) {
+                        return;
+                    }
+                    response.json().then(function(data) {
+                        this.setState({ summaryFightResults: data });
+                    });
+                }
+            );*/
             fetch('/homepagesummary').then(function (response) {
                 return response.json();
             }).then(function (data) {
@@ -63569,26 +63567,64 @@ var Homepage = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            var years = [];
+            var decisions = [];
+            var submissions = [];
+            var knockouts = [];
+            this.state.summaryFightResults.forEach(function (element) {
+                if (years.indexOf(element.year) == -1) {
+                    years.push(element.year);
+                    decisions.push(0);
+                    submissions.push(0);
+                    knockouts.push(0);
+                }
+            });
+            years.sort();
+            this.state.summaryFightResults.forEach(function (element) {
+                var indexOf = years.indexOf(element.year);
+                if (indexOf != -1) {
+                    if (element.type == "Submission") {
+                        submissions[indexOf] = element.count;
+                    } else if (element.type == "Knockout") {
+                        knockouts[indexOf] = element.count;
+                    } else if (element.type == "Decision") {
+                        decisions[indexOf] = element.count;
+                    }
+                }
+            });
+            console.log(years);
+            console.log(submissions);
+            console.log(knockouts);
+            console.log(decisions);
             var data = {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                labels: years,
                 datasets: [{
-                    label: "My First dataset",
+                    label: "Decisions",
                     fillColor: "rgba(220,220,220,0.2)",
                     strokeColor: "rgba(220,220,220,1)",
                     pointColor: "rgba(220,220,220,1)",
                     pointStrokeColor: "#fff",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: [65, 59, 80, 81, 56, 55, 40]
+                    data: decisions
                 }, {
-                    label: "My Second dataset",
+                    label: "Knockouts",
                     fillColor: "rgba(151,187,205,0.2)",
                     strokeColor: "rgba(151,187,205,1)",
                     pointColor: "rgba(151,187,205,1)",
                     pointStrokeColor: "#fff",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(151,187,205,1)",
-                    data: [28, 48, 40, 19, 86, 27, 90]
+                    data: knockouts
+                }, {
+                    label: "Submissions",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    data: submissions
                 }]
             };
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -63597,7 +63633,6 @@ var Homepage = function (_React$Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'row' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_chartjs__["Line"], { data: data, width: '500', height: '250' }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_chartjs__["Line"], { data: data, width: '500', height: '250' })
                 )
             );
