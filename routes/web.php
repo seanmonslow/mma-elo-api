@@ -10,17 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-//use App\Fighter;
-
-/*Route::get('/{id}/fights', function ($id) {
-	$fighter = Fighter::find($id);
-    return $fighter->fights()->get();
-});
-
-Route::get('/{id}/info', function ($id) {
-	$fighter = Fighter::find($id);
-    return $fighter;
-});()*/
 
 Route::get('/{id}/info', 'FighterController@getFighter');
 
@@ -44,6 +33,6 @@ Route::get('/homepagesummary', function(){
     return $results;
 });
 
-Route::get('/api', 'ApiController@view');
+Route::get('/apisignup', 'ApiController@view');
 
-Route::post('/api', 'ApiController@createUser');
+Route::post('/apisignup', 'ApiController@createUser');

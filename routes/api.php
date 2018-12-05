@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+use App\Http\Middleware\CheckValidApiKey;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +14,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
+
+Route::post('/hello', function(){
+    return ["sean"=>$_GET["api_key"]];
+})->middleware(CheckValidApiKey::class);

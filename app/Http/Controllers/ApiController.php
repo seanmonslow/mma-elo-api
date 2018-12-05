@@ -9,19 +9,19 @@ class ApiController extends Controller
 {
     function createUser(Request $request){
 
-        $apikey =  bin2hex(random_bytes(32));
+        $apikey = bin2hex(random_bytes(16));
 
         $apiuser = new ApiUser;
 
         $apiuser->key = $apikey;
 
-        $apiuser->email = $request->email;
+        $apiuser->email = $request->input('email');
 
         $apiuser->daily_uses = 0;
 
         $apiuser->save();
 
-        return view("createapi", ['apikey' => $apikey]);
+        return view("apiform", ['apikey' => $apikey]);
 
     }
 
