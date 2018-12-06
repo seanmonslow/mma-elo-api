@@ -17,8 +17,9 @@ class CheckValidApiKey
      */
     public function handle($request, Closure $next)
     {
-        $apiuser = DB::table('api_users')->where('key', $_GET["api_key"])->first();
+        //$apiuser = DB::table('api_users')->where('key', $_GET["api_key"])->first();
 
+        $apiuser = ApiUser::where('key', $_GET["api_key"])->first();
         //return response($apiuser->email, 401);
 
         if($apiuser == null){
@@ -26,6 +27,8 @@ class CheckValidApiKey
         } elseif($apiuser->daily_uses > 10000){
             return response(["message"=>"Exceeded daily uses"], 401);
         } else {
+            $apiuser->daily_uses += 1;
+            $apiuser->save();
             return $next($request);
         }
     }

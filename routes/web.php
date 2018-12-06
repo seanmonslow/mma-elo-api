@@ -33,6 +33,21 @@ Route::get('/homepagesummary', function(){
     return $results;
 });
 
+Route::get('/homepagesummaryranking', function(){
+    $rankings = DB::select("SELECT * FROM fighters ORDER BY wins DESC LIMIT 10");
+    return $results;
+});
+
+Route::get('/homepagesummaryfights', function(){
+    $fights = DB::select("SELECT *, fighters1.wins + fighters2.wins AS total_wins FROM results JOIN fighters AS fighters1 ON results.fighter1id = fighters1.id JOIN fighters AS fighters2 ON results.fighter2id = fighters2.id ORDER BY total_wins DESC LIMIT 10");
+    return $fights;
+});
+
+Route::get('/homepagesummaryevents', function(){
+    $events = DB::select("SELECT event, SUM(fighters1.wins + fighters2.wins) AS total_wins FROM results JOIN fighters AS fighters1 ON results.fighter1id = fighters1.id JOIN fighters AS fighters2 ON results.fighter2id = fighters2.id GROUP BY event, event_date ORDER BY total_wins DESC LIMIT 10");
+    return $events;
+});
+
 Route::get('/apisignup', 'ApiController@view');
 
 Route::post('/apisignup', 'ApiController@createUser');

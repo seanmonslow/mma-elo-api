@@ -6,7 +6,10 @@ export class Homepage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            summaryFightResults: []
+            summaryFightResults: [],
+            summaryRanking: [],
+            summaryBestFights: [],
+            summaryBestEvents: []
         }
     }
     componentDidMount(){
@@ -23,6 +26,10 @@ export class Homepage extends React.Component{
         fetch('/homepagesummary')
         .then(response => response.json())
         .then(data => this.setState({ summaryFightResults: data }))
+        fetch('/homepagesummaryranking')
+        .then(response => response.json())
+        .then(data => this.setState({ summaryRanking: data }))    
+
     }
     render(){
         let years = [];
@@ -50,10 +57,6 @@ export class Homepage extends React.Component{
                 }
             }
         });
-        console.log(years);
-        console.log(submissions);
-        console.log(knockouts);
-        console.log(decisions);
         var data = {
             labels: years,
             datasets: [
