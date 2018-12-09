@@ -26,9 +26,18 @@ export class Homepage extends React.Component{
         fetch('/homepagesummary')
         .then(response => response.json())
         .then(data => this.setState({ summaryFightResults: data }))
+        
         fetch('/homepagesummaryranking')
         .then(response => response.json())
-        .then(data => this.setState({ summaryRanking: data }))    
+        .then(data => this.setState({ summaryRanking: data }))
+        
+        fetch('/homepagesummaryfights')
+        .then(response => response.json())
+        .then(data => this.setState({ summaryBestFights: data }))    
+
+        fetch('/homepagesummaryevents')
+        .then(response => response.json())
+        .then(data => this.setState({ summaryBestEvents: data }))    
 
     }
     render(){
@@ -57,7 +66,7 @@ export class Homepage extends React.Component{
                 }
             }
         });
-        var data = {
+        let data = {
             labels: years,
             datasets: [
                 {
@@ -92,10 +101,92 @@ export class Homepage extends React.Component{
                 }
             ]
         };
+        let fighters = this.state.summaryRanking.map((fighter, index)=>{
+            //console.log(fighter);
+            let url = "/fighters/" + fighter.id;
+            return(<tr key={index + 1}>
+                <th scope="row">{index + 1}</th>
+                <td><a href={url}>{fighter.name}</a></td>
+                <td>{fighter.wins}-{fighter.draws}-{fighter.losses}</td>
+            </tr>);
+        });
+
+        let events = this.state.summaryBestEvents.map((event, index)=>{
+            return(<tr key={index + 1}>
+                <th scope="row">{index + 1}</th>
+                <td>{event.event}</td>
+                <td>{event.event_date}</td>
+            </tr>);
+        });
+
+        let fights = this.state.summaryBestFights.map((fight, index)=>{
+            let fighter1url = "/fighters/"+ fight.fighter1id;
+            let fighter2url = "/fighters/"+ fight.fighter2id;
+            return(<tr key={index + 1}>
+                <th scope="row">{index + 1}</th>
+                <td><a href={fighter1url}>{fight.fighter1name}</a></td>
+                <td><a href={fighter2url}>{fight.fighter2name}</a></td>
+                <td>{fight.event_date}</td>
+                <td>{fight.total_wins}</td>
+            </tr>);
+        });
+        //console.log(fighters);
         return(
             <div className="container">
                 <div className="row">
-                    <Line data={data} width="500" height="250"/>
+                    <div className="col-md-6">
+                        <h4>Most common fight finish</h4>
+                        <Line data={data} width="500" height="250"/>
+                    </div>
+                    <div className="col-md-6">
+                        <h4>Most wins from a fighter</h4>
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Record</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {fighters}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-6">
+                        <h4>Events with the most wins from each fighter</h4>
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Event</th>
+                                <th scope="col">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {events}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="col-md-6">
+                        <h4>Fights with the most past wins</h4>
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Fighter 1</th>
+                                <th scope="col">Fighter 2</th>
+                                <th scope="col">Event Date</th>
+                                <th scope="col">Sum of fighter wins</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {fights}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         );

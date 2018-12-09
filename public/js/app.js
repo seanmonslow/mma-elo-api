@@ -63538,7 +63538,10 @@ var Homepage = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Homepage.__proto__ || Object.getPrototypeOf(Homepage)).call(this, props));
 
         _this.state = {
-            summaryFightResults: []
+            summaryFightResults: [],
+            summaryRanking: [],
+            summaryBestFights: [],
+            summaryBestEvents: []
         };
         return _this;
     }
@@ -63562,6 +63565,24 @@ var Homepage = function (_React$Component) {
                 return response.json();
             }).then(function (data) {
                 return _this2.setState({ summaryFightResults: data });
+            });
+
+            fetch('/homepagesummaryranking').then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                return _this2.setState({ summaryRanking: data });
+            });
+
+            fetch('/homepagesummaryfights').then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                return _this2.setState({ summaryBestFights: data });
+            });
+
+            fetch('/homepagesummaryevents').then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                return _this2.setState({ summaryBestEvents: data });
             });
         }
     }, {
@@ -63592,10 +63613,6 @@ var Homepage = function (_React$Component) {
                     }
                 }
             });
-            console.log(years);
-            console.log(submissions);
-            console.log(knockouts);
-            console.log(decisions);
             var data = {
                 labels: years,
                 datasets: [{
@@ -63627,13 +63644,255 @@ var Homepage = function (_React$Component) {
                     data: submissions
                 }]
             };
+            var fighters = this.state.summaryRanking.map(function (fighter, index) {
+                //console.log(fighter);
+                var url = "/fighters/" + fighter.id;
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'tr',
+                    { key: index + 1 },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'th',
+                        { scope: 'row' },
+                        index + 1
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        null,
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'a',
+                            { href: url },
+                            fighter.name
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        null,
+                        fighter.wins,
+                        '-',
+                        fighter.draws,
+                        '-',
+                        fighter.losses
+                    )
+                );
+            });
+
+            var events = this.state.summaryBestEvents.map(function (event, index) {
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'tr',
+                    { key: index + 1 },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'th',
+                        { scope: 'row' },
+                        index + 1
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        null,
+                        event.event
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        null,
+                        event.event_date
+                    )
+                );
+            });
+
+            var fights = this.state.summaryBestFights.map(function (fight, index) {
+                var fighter1url = "/fighters/" + fight.fighter1id;
+                var fighter2url = "/fighters/" + fight.fighter2id;
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'tr',
+                    { key: index + 1 },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'th',
+                        { scope: 'row' },
+                        index + 1
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        null,
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'a',
+                            { href: fighter1url },
+                            fight.fighter1name
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        null,
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'a',
+                            { href: fighter2url },
+                            fight.fighter2name
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        null,
+                        fight.event_date
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        null,
+                        fight.total_wins
+                    )
+                );
+            });
+            //console.log(fighters);
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'row' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_chartjs__["Line"], { data: data, width: '500', height: '250' })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'col-md-6' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'h4',
+                            null,
+                            'Most common fight finish'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_chartjs__["Line"], { data: data, width: '500', height: '250' })
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'col-md-6' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'h4',
+                            null,
+                            'Most wins from a fighter'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'table',
+                            { className: 'table' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'thead',
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'tr',
+                                    null,
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        '#'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        'Name'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        'Record'
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'tbody',
+                                null,
+                                fighters
+                            )
+                        )
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'row' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'col-md-6' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'h4',
+                            null,
+                            'Events with the most wins from each fighter'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'table',
+                            { className: 'table' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'thead',
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'tr',
+                                    null,
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        '#'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        'Event'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        'Date'
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'tbody',
+                                null,
+                                events
+                            )
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'col-md-6' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'h4',
+                            null,
+                            'Fights with the most past wins'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'table',
+                            { className: 'table' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'thead',
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'tr',
+                                    null,
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        '#'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        'Fighter 1'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        'Fighter 2'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        'Event Date'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        'Sum of fighter wins'
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'tbody',
+                                null,
+                                fights
+                            )
+                        )
+                    )
                 )
             );
         }

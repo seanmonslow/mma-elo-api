@@ -14,8 +14,10 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     </head>
     <body>
-        <div id="app"></div>
-        @include('footer')
+        <div id="app">
+        </div>
+        <div style="width:100%; height:100px; background-color: #f8fafc;"></div>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
+    @include('footer')
 </html>

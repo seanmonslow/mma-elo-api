@@ -35,16 +35,16 @@ Route::get('/homepagesummary', function(){
 
 Route::get('/homepagesummaryranking', function(){
     $rankings = DB::select("SELECT * FROM fighters ORDER BY wins DESC LIMIT 10");
-    return $results;
+    return $rankings;
 });
 
 Route::get('/homepagesummaryfights', function(){
-    $fights = DB::select("SELECT *, fighters1.wins + fighters2.wins AS total_wins FROM results JOIN fighters AS fighters1 ON results.fighter1id = fighters1.id JOIN fighters AS fighters2 ON results.fighter2id = fighters2.id ORDER BY total_wins DESC LIMIT 10");
+    $fights = DB::select("SELECT fighters1.id AS fighter1id, fighters2.id AS fighter2id, fighters1.name AS fighter1name, fighters2.name AS fighter2name, DATE(results.event_date) AS event_date, fighters1.wins + fighters2.wins AS total_wins FROM results JOIN fighters AS fighters1 ON results.fighter1id = fighters1.id JOIN fighters AS fighters2 ON results.fighter2id = fighters2.id ORDER BY total_wins DESC LIMIT 10");
     return $fights;
 });
 
 Route::get('/homepagesummaryevents', function(){
-    $events = DB::select("SELECT event, SUM(fighters1.wins + fighters2.wins) AS total_wins FROM results JOIN fighters AS fighters1 ON results.fighter1id = fighters1.id JOIN fighters AS fighters2 ON results.fighter2id = fighters2.id GROUP BY event, event_date ORDER BY total_wins DESC LIMIT 10");
+    $events = DB::select("SELECT event, DATE(event_date) AS event_date, SUM(fighters1.wins + fighters2.wins) AS total_wins FROM results JOIN fighters AS fighters1 ON results.fighter1id = fighters1.id JOIN fighters AS fighters2 ON results.fighter2id = fighters2.id GROUP BY event, event_date ORDER BY total_wins DESC LIMIT 10");
     return $events;
 });
 
