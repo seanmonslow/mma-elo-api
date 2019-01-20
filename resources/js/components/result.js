@@ -6,11 +6,13 @@ export class Result extends React.Component{
         super(props);
         if(this.props.fight.fighter1id === this.props.currentFighter.id){
             this.state = {
-                otherFighter: this.props.fight.otherFighter2
+                otherFighter: this.props.fight.otherFighter2,
+                fighterElo: this.props.fight.fighter1eloafter
             };
         } else {
             this.state = {
-                otherFighter: this.props.fight.otherFighter1
+                otherFighter: this.props.fight.otherFighter1,
+                fighterElo: this.props.fight.fighter2eloafter
             };
         }
     }
@@ -26,7 +28,7 @@ export class Result extends React.Component{
                             <p className="card-text">Date: {this.props.fight.event_date}</p>
                             </div>
                             <div className="col-sm">
-                                <p className="card-text">ELO: 1200</p>
+                                <p className="card-text">ELO After: {this.state.fighterElo}</p>
                             </div>
                         </div>
                     </div>

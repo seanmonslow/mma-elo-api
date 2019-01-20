@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Line} from 'react-chartjs';
+//import {PieChart} from 'react-easy-chart';
+import {Chart} from 'react-google-charts';
 
 export class Homepage extends React.Component{
     constructor(props){
@@ -35,72 +36,25 @@ export class Homepage extends React.Component{
         .then(response => response.json())
         .then(data => this.setState({ summaryBestFights: data }))    
 
-        fetch('/homepagesummaryevents')
+        /*fetch('/homepagesummaryevents')
         .then(response => response.json())
-        .then(data => this.setState({ summaryBestEvents: data }))    
+        .then(data => this.setState({ summaryBestEvents: data }))*/    
 
     }
     render(){
-        let years = [];
-        let decisions = [];
-        let submissions = [];
-        let knockouts = [];
-        this.state.summaryFightResults.forEach(function(element){
-            if(years.indexOf(element.year) == -1){
-                years.push(element.year);
-                decisions.push(0);
-                submissions.push(0);
-                knockouts.push(0);
+        let types = this.state.summaryFightResults;
+        let kos = 0;
+        let submissions = 0;
+        let decisions = 0;
+        for(let i = 0; i <  this.state.summaryFightResults.length; i++){
+            if(types[i].type == "Submission"){
+                submissions = types[i].count;
+            } else if(types[i].type == "Knockout"){
+                kos = types[i].count;
+            } else {
+                decisions = types[i].count;
             }
-        });
-        years.sort();
-        this.state.summaryFightResults.forEach(function(element){
-            let indexOf = years.indexOf(element.year);
-            if(indexOf != -1){
-                if(element.type == "Submission"){
-                    submissions[indexOf] = element.count;
-                } else if(element.type == "Knockout"){
-                    knockouts[indexOf] = element.count;
-                } else if(element.type == "Decision"){
-                    decisions[indexOf] = element.count;
-                }
-            }
-        });
-        let data = {
-            labels: years,
-            datasets: [
-                {
-                    label: "Decisions",
-                    fillColor: "rgba(220,220,220,0.2)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: decisions
-                },
-                {
-                    label: "Knockouts",
-                    fillColor: "rgba(151,187,205,0.2)",
-                    strokeColor: "rgba(151,187,205,1)",
-                    pointColor: "rgba(151,187,205,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(151,187,205,1)",
-                    data: knockouts
-                },
-                {
-                    label: "Submissions",
-                    fillColor: "rgba(151,187,205,0.2)",
-                    strokeColor: "rgba(151,187,205,1)",
-                    pointColor: "rgba(151,187,205,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(151,187,205,1)",
-                    data: submissions
-                }
-            ]
-        };
+        }
         let fighters = this.state.summaryRanking.map((fighter, index)=>{
             //console.log(fighter);
             let url = "/fighters/" + fighter.id;
@@ -131,15 +85,31 @@ export class Homepage extends React.Component{
             </tr>);
         });
         //console.log(fighters);
+        //<Doughnut data={data} width="500" height="250"/>
+        //<Pie data={data} options={options}/>
         return(
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
                         <h4>Most common fight finish</h4>
-                        <Line data={data} width="500" height="250"/>
+                        <Chart
+                            width={'500px'}
+                            height={'300px'}
+                            chartType="PieChart"
+                            loader={<div>Loading Chart</div>}
+                            data={[
+                                ['Finish Type', 'Total Amount'],
+                                [ 'Submission', submissions ],
+                                [ 'Knockout', kos ],
+                                [ 'Decision', decisions ]
+                            ]}
+                            options={{
+                                title: 'Fight Finishes',
+                            }}
+                        />
                     </div>
                     <div className="col-md-6">
-                        <h4>Most wins from a fighter</h4>
+                        <h4>Fighters with the highest ELO</h4>
                         <table className="table">
                             <thead>
                                 <tr>
@@ -155,7 +125,7 @@ export class Homepage extends React.Component{
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-6">
+                    {/*<div className="col-md-6">
                         <h4>Events with the most wins from each fighter</h4>
                         <table className="table">
                             <thead>
@@ -169,9 +139,9 @@ export class Homepage extends React.Component{
                                 {events}
                             </tbody>
                         </table>
-                    </div>
+                        </div>*/}
                     <div className="col-md-6">
-                        <h4>Fights with the most past wins</h4>
+                        <h4>Fights with the highest combined ELO</h4>
                         <table className="table">
                             <thead>
                                 <tr>
@@ -179,7 +149,6 @@ export class Homepage extends React.Component{
                                 <th scope="col">Fighter 1</th>
                                 <th scope="col">Fighter 2</th>
                                 <th scope="col">Event Date</th>
-                                <th scope="col">Sum of fighter wins</th>
                                 </tr>
                             </thead>
                             <tbody>
