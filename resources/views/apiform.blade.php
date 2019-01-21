@@ -21,7 +21,7 @@
             <div class="jumbotron" style="text-align: center;">
                 @if (!isset($apikey))
                 <h1 class="display-4">Sign up to the API</h1>
-                <form action="/api" method="post">
+                <form action="/apisignup" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="email">Email address</label>
