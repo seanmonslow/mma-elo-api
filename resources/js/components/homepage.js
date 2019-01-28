@@ -62,6 +62,7 @@ export class Homepage extends React.Component{
                 <th scope="row">{index + 1}</th>
                 <td><a href={url}>{fighter.name}</a></td>
                 <td>{fighter.wins}-{fighter.draws}-{fighter.losses}</td>
+                <td>{fighter.highest_elo}</td>
             </tr>);
         });
 
@@ -76,12 +77,15 @@ export class Homepage extends React.Component{
         let fights = this.state.summaryBestFights.map((fight, index)=>{
             let fighter1url = "/fighters/"+ fight.fighter1id;
             let fighter2url = "/fighters/"+ fight.fighter2id;
+            let combinedelo = Number(fight.fighter1eloafter) + Number(fight.fighter2eloafter);
+
             return(<tr key={index + 1}>
                 <th scope="row">{index + 1}</th>
                 <td><a href={fighter1url}>{fight.fighter1name}</a></td>
                 <td><a href={fighter2url}>{fight.fighter2name}</a></td>
                 <td>{fight.event_date}</td>
                 <td>{fight.total_wins}</td>
+                <td>{combinedelo} ({fight.fighter1eloafter} - {fight.fighter2eloafter})</td>
             </tr>);
         });
         //console.log(fighters);
@@ -116,6 +120,7 @@ export class Homepage extends React.Component{
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Record</th>
+                                <th scope="col">Highest ELO</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -149,6 +154,7 @@ export class Homepage extends React.Component{
                                 <th scope="col">Fighter 1</th>
                                 <th scope="col">Fighter 2</th>
                                 <th scope="col">Event Date</th>
+                                <th scope="col">ELO</th>
                                 </tr>
                             </thead>
                             <tbody>

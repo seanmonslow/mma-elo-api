@@ -81652,6 +81652,15 @@ var Result = function (_React$Component) {
     _createClass(Result, [{
         key: 'render',
         value: function render() {
+            var otherfighterurl = void 0;
+            var otherFighterName = void 0;
+            if (this.state.otherFighter !== null) {
+                otherfighterurl = "/fighters/" + this.state.otherFighter.id;
+                otherFighterName = this.state.otherFighter.name;
+            } else {
+                otherFighterName = "Unknown fighter";
+                otherfighterurl = "/";
+            }
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'card' },
@@ -81672,7 +81681,11 @@ var Result = function (_React$Component) {
                                     { className: 'card-title' },
                                     this.props.currentFighter.name,
                                     ' Vs. ',
-                                    this.state.otherFighter.name
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'a',
+                                        { href: otherfighterurl },
+                                        otherFighterName
+                                    )
                                 ),
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'p',
@@ -109758,6 +109771,11 @@ var Homepage = function (_React$Component) {
                         fighter.draws,
                         '-',
                         fighter.losses
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        null,
+                        fighter.highest_elo
                     )
                 );
             });
@@ -109787,6 +109805,8 @@ var Homepage = function (_React$Component) {
             var fights = this.state.summaryBestFights.map(function (fight, index) {
                 var fighter1url = "/fighters/" + fight.fighter1id;
                 var fighter2url = "/fighters/" + fight.fighter2id;
+                var combinedelo = Number(fight.fighter1eloafter) + Number(fight.fighter2eloafter);
+
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'tr',
                     { key: index + 1 },
@@ -109822,6 +109842,16 @@ var Homepage = function (_React$Component) {
                         'td',
                         null,
                         fight.total_wins
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        null,
+                        combinedelo,
+                        ' (',
+                        fight.fighter1eloafter,
+                        ' - ',
+                        fight.fighter2eloafter,
+                        ')'
                     )
                 );
             });
@@ -109888,6 +109918,11 @@ var Homepage = function (_React$Component) {
                                         'th',
                                         { scope: 'col' },
                                         'Record'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        'Highest ELO'
                                     )
                                 )
                             ),
@@ -109938,6 +109973,11 @@ var Homepage = function (_React$Component) {
                                         'th',
                                         { scope: 'col' },
                                         'Event Date'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'th',
+                                        { scope: 'col' },
+                                        'ELO'
                                     )
                                 )
                             ),

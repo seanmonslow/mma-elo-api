@@ -33,7 +33,7 @@
                 <h1 class="display-4">You have now signed up</h1>
                 <p class="lead">API key: {{{ $apikey }}}</p>
                 <hr class="my-4">
-                <p>Example of use: https://www.mmaelo.com/api/fighterSearch/gracie?api_key={yourapikey}</p>
+                <p>Example of use: https://www.mmaelo.com/api/fighterSearch/gracie?api_key={{$apikey}}</p>
                 @endif
             </div>
         </div>

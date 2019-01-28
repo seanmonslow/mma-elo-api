@@ -27,13 +27,22 @@ export class Result extends React.Component{
         }
     }
     render(){
+        let otherfighterurl;
+        let otherFighterName;
+        if(this.state.otherFighter !== null){
+            otherfighterurl = "/fighters/"+this.state.otherFighter.id;
+            otherFighterName = this.state.otherFighter.name;
+        } else {
+            otherFighterName = "Unknown fighter";
+            otherfighterurl = "/";
+        }
         return(
             <div className="card">
                 <div className="card-body">
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-9">
-                            <h5 className="card-title">{this.props.currentFighter.name} Vs. {this.state.otherFighter.name}</h5>
+                            <h5 className="card-title">{this.props.currentFighter.name} Vs. <a href={otherfighterurl}>{otherFighterName}</a></h5>
                             <p className="card-text">Result: {this.state.result}</p>
                             <p className="card-text">Date: {this.props.fight.event_date}</p>
                             </div>

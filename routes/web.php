@@ -39,7 +39,7 @@ Route::get('/homepagesummaryranking', function(){
 });
 
 Route::get('/homepagesummaryfights', function(){
-    $fights = DB::select("SELECT fighters1.id AS fighter1id, fighters2.id AS fighter2id, fighters1.name AS fighter1name, fighters2.name AS fighter2name, DATE(results.event_date) AS event_date FROM results JOIN fighters AS fighters1 ON results.fighter1id = fighters1.id JOIN fighters AS fighters2 ON results.fighter2id = fighters2.id ORDER BY (results.fighter1eloafter + results.fighter1eloafter) DESC LIMIT 10");
+    $fights = DB::select("SELECT fighters1.id AS fighter1id, fighters2.id AS fighter2id, fighters1.name AS fighter1name, fighters2.name AS fighter2name, DATE(results.event_date) AS event_date, results.fighter1eloafter, results.fighter2eloafter FROM results JOIN fighters AS fighters1 ON results.fighter1id = fighters1.id JOIN fighters AS fighters2 ON results.fighter2id = fighters2.id ORDER BY (results.fighter1eloafter + results.fighter1eloafter) DESC LIMIT 10");
     return $fights;
 });
 
