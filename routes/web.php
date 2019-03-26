@@ -51,3 +51,6 @@ Route::get('/homepagesummaryfights', function(){
 Route::get('/apisignup', 'ApiController@view');
 
 Route::post('/apisignup', 'ApiController@createUser');
+
+Route::get('/apidocs', 'ApiController@viewdoc');
+

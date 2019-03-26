@@ -9,24 +9,6 @@ class ApiController extends Controller
 {
     function createUser(Request $request){
 
-        $email = new \SendGrid\Mail\Mail(); 
-        $email->setFrom("test@example.com", "Example User");
-        $email->setSubject("Sending with SendGrid is Fun");
-        $email->addTo($request->input('email'), "Example User");
-        $email->addContent("text/plain", "and easy to do anywhere, even with PHP");
-        $email->addContent(
-            "text/html", "<strong>and easy to do anywhere, even with PHP</strong>"
-        );
-        $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
-        try {
-            $response = $sendgrid->send($email);
-            //print $response->statusCode() . "\n";
-            //print_r($response->headers());
-            //print $response->body() . "\n";
-        } catch (Exception $e) {
-            echo 'Caught exception: '. $e->getMessage() ."\n";
-        }
-
         $apikey = bin2hex(random_bytes(16));
 
         $apiuser = new ApiUser;
@@ -39,11 +21,31 @@ class ApiController extends Controller
 
         $apiuser->save();
 
+        $email = new \SendGrid\Mail\Mail(); 
+        $email->setFrom("api@mmaelo.com", "MMA ELO API");
+        $email->setSubject("MMA API key");
+        $email->addTo($request->input('email'), "Developer");
+        $email->addContent(
+            "text/html", "Hi, <br><br>Here's your API key: ".$apikey."<br><br> You have a 10,000 daily limit"
+        );
+        $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+        try {
+            $response = $sendgrid->send($email);
+            //print $response->statusCode() . "\n";
+            //print_r($response->headers());
+            //print $response->body() . "\n";
+        } catch (Exception $e) {
+        }
+
         return view("apiform", ['apikey' => $apikey]);
 
     }
 
     function view(){
         return view("apiform");
+    }
+
+    function viewdoc(){
+        return view("apidoc");
     }
 }

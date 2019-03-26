@@ -34,6 +34,9 @@
                 <p class="lead">API key: {{{ $apikey }}}</p>
                 <hr class="my-4">
                 <p>Example of use: https://www.mmaelo.com/api/fighterSearch/gracie?api_key={{$apikey}}</p>
+                <hr class="my-4">
+                <p>To view how to use the api please click the button below</p>
+                <a href="/apidoc" class="btn btn-primary">API Docs</a>
                 @endif
             </div>
         </div>
